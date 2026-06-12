@@ -249,7 +249,7 @@ function showSuccessSlip(apt) {
   if (whatsappBtn) {
     const doctorName = apt.doctor.split('(')[0].trim();
     const message = `Hello Smart Clinic! I have booked an appointment.\n\n*Appointment ID:* ${apt.id}\n*Patient Name:* ${apt.name}\n*Doctor Name:* ${doctorName}\n*Date:* ${formattedDate}\n*Time:* ${apt.time}`;
-    const waUrl = `https://wa.me/919876543210?text=${encodeURIComponent(message)}`;
+    const waUrl = `https://wa.me/916304959026?text=${encodeURIComponent(message)}`;
     whatsappBtn.href = waUrl;
   }
 
