@@ -1,0 +1,24 @@
+{
+  "name": "Smart Clinic Appointment & Patient Management System",
+  "short_name": "Smart Clinic",
+  "description": "Production-ready healthcare clinic appointment booking and management system.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#1e293b",
+  "theme_color": "#2196f3",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/images/logo-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/images/logo-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}

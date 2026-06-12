@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Appointment | Smart Clinic</title>
+  <meta name="description" content="Book an appointment online with our expert doctors at Smart Clinic. Safe, secure, and fast healthcare scheduling.">
+  <meta name="keywords" content="clinic, doctor appointment, booking, healthcare, patient portal">
+  <link rel="canonical" href="http://localhost:3000/appointments.html">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Book Appointment | Smart Clinic">
+  <meta property="og:description" content="Book an appointment online with our expert doctors. Safe, secure, and fast healthcare scheduling.">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:title" content="Book Appointment | Smart Clinic">
+  <meta property="twitter:description" content="Book an appointment online with our expert doctors. Safe, secure, and fast healthcare scheduling.">
+
+  <!-- PWA Manifest & Colors -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2196f3">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    .booking-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    
+    .booking-form-card {
+      background-color: var(--surface-color);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border-color);
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    
+    .contact-info-card {
+      background: linear-gradient(135deg, var(--primary-color), hsl(210, 80%, 40%));
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      color: white;
+      box-shadow: var(--shadow-md);
+      position: sticky;
+      top: 120px;
+    }
+    
+    .contact-info-card h3 {
+      color: white;
+      font-size: 2rem;
+      margin-bottom: 24px;
+    }
+    
+    .info-item {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    
+    .info-icon {
+      width: 48px;
+      height: 48px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    
+    .info-text h4 {
+      color: white;
+      margin: 0 0 4px;
+      font-family: var(--font-body);
+    }
+    
+    .info-text p {
+      color: rgba(255, 255, 255, 0.8);
+      margin: 0;
+    }
+    
+    @media (max-width: 1024px) {
+      .booking-container {
+        grid-template-columns: 1fr;
+      }
+      .contact-info-card {
+        position: static;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      .booking-form-card {
+        padding: 24px;
+      }
+    }
+  </style>
+
+  <!-- Structured JSON-LD Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalClinic",
+    "name": "Smart Clinic",
+    "url": "http://localhost:3000",
+    "logo": "http://localhost:3000/assets/images/logo-512.png",
+    "telephone": "+91 98765 43210",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "12-570, near Kanakadurga Varadhi, Tadepalle",
+      "addressLocality": "Vijayawada",
+      "addressRegion": "Andhra Pradesh",
+      "postalCode": "522501",
+      "addressCountry": "IN"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Skip to main content landmark for accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Loading Screen -->
+  <div class="loader-wrapper">
+    <div class="loader"></div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">+</div>
+        Smart Clinic
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="appointments.html" class="active">Book Appointment</a></li>
+        <li><a href="patient-dashboard.html">Dashboard</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      
+      <div class="nav-actions">
+        <button id="pwaInstallBtn" class="btn btn-sm btn-primary" style="display: none; padding: 8px 16px; font-size: 0.85rem;">Install App</button>
+        <button class="theme-toggle" aria-label="Toggle dark mode"></button>
+        <button class="hamburger" aria-label="Menu" aria-expanded="false">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="section" style="background: linear-gradient(135deg, rgba(33, 150, 243, 0.1), rgba(255, 255, 255, 0)); padding: 140px 0 60px; margin-bottom: 0;">
+    <div class="container text-center" style="text-align: center;">
+      <h1 class="animate-on-scroll fade-up">Book an Appointment</h1>
+      <p class="animate-on-scroll fade-up" style="transition-delay: 0.1s; color: var(--text-secondary); max-width: 600px; margin: 16px auto 0;">Schedule your visit easily and securely. Get instant confirmation.</p>
+    </div>
+  </header>
+
+  <!-- Booking Section -->
+  <main id="main-content" class="section">
+    <div class="container booking-container">
+      
+      <!-- Booking Form -->
+      <div class="booking-form-card animate-on-scroll fade-right">
+        <h2 style="margin-bottom: 24px;">Patient Details</h2>
+        <form id="appointmentForm" novalidate>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="patientName">Full Name *</label>
+              <input type="text" id="patientName" class="form-control" placeholder="John Doe" required>
+              <span class="error-message">Please enter a valid full name (letters only).</span>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="patientMobile">Mobile Number *</label>
+              <input type="tel" id="patientMobile" class="form-control" placeholder="10-digit number" required>
+              <span class="error-message">Please enter a valid 10-digit mobile number.</span>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="patientEmail">Email Address *</label>
+              <input type="email" id="patientEmail" class="form-control" placeholder="john@example.com" required>
+              <span class="error-message">Please enter a valid email address.</span>
+            </div>
+            
+            <div class="form-row" style="gap: 16px;">
+              <div class="form-group">
+                <label class="form-label" for="patientAge">Age *</label>
+                <input type="number" id="patientAge" class="form-control" placeholder="Years" min="1" max="120" required>
+                <span class="error-message">Invalid age (1-120).</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="patientGender">Gender *</label>
+                <select id="patientGender" class="form-control" required>
+                  <option value="">Select</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+                <span class="error-message">Select gender.</span>
+              </div>
+            </div>
+          </div>
+          
+          <h2 style="margin: 32px 0 24px; border-top: 1px solid var(--border-color); padding-top: 32px;">Appointment Details</h2>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="appointmentDoctor">Select Doctor *</label>
+              <select id="appointmentDoctor" class="form-control" required>
+                <option value="">Select Doctor</option>
+                <option value="Dr. Vikram Sharma (General Medicine)">Dr. Vikram Sharma (General Medicine)</option>
+                <option value="Dr. Anjali Desai (Pediatrics)">Dr. Anjali Desai (Pediatrics)</option>
+                <option value="Dr. Rajesh Kumar (Cardiology)">Dr. Rajesh Kumar (Cardiology)</option>
+                <option value="Dr. Meera Patel (Gynecology)">Dr. Meera Patel (Gynecology)</option>
+              </select>
+              <span class="error-message">Please select a doctor.</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="appointmentDate">Appointment Date *</label>
+              <input type="date" id="appointmentDate" class="form-control" required>
+              <span class="error-message">Select a valid future date.</span>
+            </div>
+          </div>
+          
+          <!-- Intelligent Slot Picker instead of plain dropdown selection -->
+          <div class="form-group" id="slotPickerWrapper" style="display: none; margin-top: 12px;">
+            <label class="form-label" style="margin-bottom: 12px; display: block;">Available Time Slots *</label>
+            <div id="slotGrid" class="slot-grid"></div>
+            <input type="hidden" id="appointmentTime" required>
+            <span class="error-message" style="display: none;">Please select a time slot.</span>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="problemDesc">Describe your problem (Optional)</label>
+            <textarea id="problemDesc" class="form-control" placeholder="Briefly describe your symptoms or reason for visit..."></textarea>
+          </div>
+          
+          <button type="submit" class="btn btn-primary btn-block" style="font-size: 1.1rem; padding: 16px;">Confirm Appointment</button>
+        </form>
+      </div>
+      
+      <!-- Contact Info Sidebar -->
+      <aside class="contact-info-card animate-on-scroll fade-left">
+        <h3>Contact Info</h3>
+        
+        <div class="info-item">
+          <div class="info-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div class="info-text">
+            <h4>Call Us Now</h4>
+            <p>+91 98765 43210</p>
+          </div>
+        </div>
+        
+        <div class="info-item">
+          <div class="info-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div class="info-text">
+            <h4>Email Address</h4>
+            <p>appointments@smartclinic.com</p>
+          </div>
+        </div>
+        
+        <div class="info-item">
+          <div class="info-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="info-text">
+            <h4>Location</h4>
+            <p>12-570, near Kanakadurga Varadhi, Tadepalle, Vijayawada, Andhra Pradesh 522501</p>
+          </div>
+        </div>
+        
+        <div class="info-item">
+          <div class="info-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="info-text">
+            <h4>Working Hours</h4>
+            <p>Mon-Sat: 09:00 AM - 08:00 PM</p>
+            <p>Sunday: Emergency Only</p>
+          </div>
+        </div>
+        
+        <div style="margin-top: 48px; text-align: center; background-color: rgba(0,0,0,0.15); padding: 24px; border-radius: var(--radius-md);">
+          <h4 style="margin: 0 0 8px; font-family: var(--font-body); color: white;">Emergency?</h4>
+          <p style="margin-bottom: 16px; font-size: 0.9rem;">Don't wait. Call our emergency hotline directly.</p>
+          <a href="tel:108" class="btn" style="background-color: var(--accent-color); color: white; border: none;">Call 108</a>
+        </div>
+        
+      </aside>
+    </div>
+  </main>
+
+  <!-- Success Confirmation Slip Modal -->
+  <div class="modal-overlay" id="successModal" aria-hidden="true" role="dialog" aria-labelledby="modalSlipTitle">
+    <div class="modal-content" style="text-align: center;">
+      <button class="modal-close" onclick="closeModal('successModal')" aria-label="Close modal">&times;</button>
+      <div style="width: 80px; height: 80px; background-color: rgba(76, 175, 80, 0.1); color: var(--status-completed); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+      </div>
+      <h2 id="modalSlipTitle" style="margin-bottom: 8px;">Appointment Confirmed!</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 24px;">Your appointment has been successfully booked.</p>
+      
+      <div class="printable-slip" style="background-color: rgba(33, 150, 243, 0.05); border: 1px dashed var(--primary-color); border-radius: var(--radius-sm); padding: 24px; margin-bottom: 24px; text-align: left;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+          <span style="color: var(--text-secondary);">Appointment ID:</span>
+          <strong id="modalAptId" style="color: var(--primary-color);">APT-123456</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+          <span style="color: var(--text-secondary);">Patient Name:</span>
+          <strong id="modalName">John Doe</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+          <span style="color: var(--text-secondary);">Date & Time:</span>
+          <strong id="modalDateTime">12 Oct 2026, 10:00 AM</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span style="color: var(--text-secondary);">Doctor:</span>
+          <strong id="modalDoctor">Dr. Vikram Sharma</strong>
+        </div>
+      </div>
+      
+      <!-- Receipt Operations Panel -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+        <button id="receiptPrintBtn" class="btn btn-secondary btn-block">Print Slip</button>
+        <a id="receiptWhatsAppBtn" target="_blank" class="btn btn-block" style="background-color: #25D366; color: white; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);">WhatsApp Slip</a>
+      </div>
+      
+      <div style="display: flex; gap: 16px;">
+        <a href="patient-dashboard.html" class="btn btn-primary btn-block">Go to Dashboard</a>
+        <button class="btn btn-secondary btn-block" onclick="closeModal('successModal'); document.getElementById('appointmentForm').reset();">Book Another</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="index.html" class="logo" style="margin-bottom: 24px; display: inline-flex;">
+            <div class="logo-icon">+</div>
+            Smart Clinic
+          </a>
+          <p style="color: var(--text-secondary); margin-bottom: 24px;">Providing premium healthcare services.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Contact Info</h4>
+          <ul class="footer-links">
+            <li style="color: var(--text-secondary);">12-570, near Kanakadurga Varadhi, Tadepalle, Vijayawada, Andhra Pradesh 522501</li>
+            <li style="color: var(--text-secondary);">+91 98765 43210</li>
+            <li style="color: var(--text-secondary);">info@smartclinic.com</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Smart Clinic System. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/appointments.js"></script>
+</body>
+</html>

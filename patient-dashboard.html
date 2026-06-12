@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Dashboard | Smart Clinic</title>
+  <meta name="description" content="Access the patient portal to view and manage your clinic appointments in real time.">
+  <meta name="keywords" content="patient dashboard, appointments status, clinical history, scheduling">
+  <link rel="canonical" href="http://localhost:3000/patient-dashboard.html">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Patient Dashboard | Smart Clinic">
+  <meta property="og:description" content="Access the patient portal to view and manage your clinic appointments in real time.">
+
+  <!-- PWA Manifest & Colors -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2196f3">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    .search-panel {
+      background-color: var(--surface-color);
+      padding: 32px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-color);
+      margin-bottom: 32px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-end;
+    }
+    
+    .appointment-card {
+      background-color: var(--surface-color);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all var(--transition-fast);
+    }
+    
+    .appointment-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary-color);
+    }
+    
+    .apt-details h4 {
+      margin: 0 0 8px;
+      font-size: 1.2rem;
+    }
+    
+    .apt-details p {
+      margin: 0 0 4px;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .apt-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 64px 24px;
+      background-color: var(--surface-color);
+      border-radius: var(--radius-md);
+      border: 1px dashed var(--border-color);
+    }
+    
+    /* Stats Layout for Patient Dashboard */
+    .admin-stat-card {
+      background-color: var(--surface-color);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-color);
+    }
+
+    @media (max-width: 768px) {
+      .search-panel {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .appointment-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .apt-actions {
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Skip to main content landmark for accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Loading Screen -->
+  <div class="loader-wrapper">
+    <div class="loader"></div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar scrolled">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">+</div>
+        Smart Clinic
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="appointments.html">Book Appointment</a></li>
+        <li><a href="patient-dashboard.html" class="active">Dashboard</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      
+      <div class="nav-actions">
+        <button id="pwaInstallBtn" class="btn btn-sm btn-primary" style="display: none; padding: 8px 16px; font-size: 0.85rem;">Install App</button>
+        <button class="theme-toggle" aria-label="Toggle dark mode"></button>
+        <button class="hamburger" aria-label="Menu" aria-expanded="false">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container dashboard-layout">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h3 style="margin-bottom: 4px;">Patient Portal</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0;">Manage your health records</p>
+      </div>
+      <ul class="sidebar-menu">
+        <li>
+          <a href="patient-dashboard.html" class="active">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            My Appointments
+          </a>
+        </li>
+        <li>
+          <a href="appointments.html">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Book New
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main id="main-content" class="dashboard-content">
+      <h2 style="margin-bottom: 24px;">Find Your Appointments</h2>
+      
+      <!-- Patient Statistics Summary (Computed Dynamically) -->
+      <div id="patientStatsWrapper" style="display: none; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px;">
+        <div class="admin-stat-card" style="padding: 16px; text-align: center;">
+          <h3 id="patientStatTotal" style="font-size: 1.6rem; margin: 0; color: var(--primary-color);">0</h3>
+          <span style="color: var(--text-secondary); font-size: 0.85rem; font-weight: 500;">Total Bookings</span>
+        </div>
+        <div class="admin-stat-card" style="padding: 16px; text-align: center;">
+          <h3 id="patientStatUpcoming" style="font-size: 1.6rem; margin: 0; color: var(--status-pending);">0</h3>
+          <span style="color: var(--text-secondary); font-size: 0.85rem; font-weight: 500;">Upcoming</span>
+        </div>
+        <div class="admin-stat-card" style="padding: 16px; text-align: center;">
+          <h3 id="patientStatCompleted" style="font-size: 1.6rem; margin: 0; color: var(--status-completed);">0</h3>
+          <span style="color: var(--text-secondary); font-size: 0.85rem; font-weight: 500;">Completed</span>
+        </div>
+        <div class="admin-stat-card" style="padding: 16px; text-align: center;">
+          <h3 id="patientStatCancelled" style="font-size: 1.6rem; margin: 0; color: var(--status-cancelled);">0</h3>
+          <span style="color: var(--text-secondary); font-size: 0.85rem; font-weight: 500;">Cancelled</span>
+        </div>
+      </div>
+
+      <!-- Search Panel -->
+      <div class="search-panel animate-on-scroll fade-up">
+        <div class="form-group" style="margin-bottom: 0; flex-grow: 1;">
+          <label class="form-label" for="searchInput">Search by Appointment ID or Mobile Number</label>
+          <input type="text" id="searchInput" class="form-control" placeholder="e.g. APT-123456 or 9876543210" required>
+        </div>
+        <button id="searchBtn" class="btn btn-primary" style="padding: 14px 24px;">Search</button>
+      </div>
+
+      <!-- Advanced Filters Section -->
+      <div id="patientFiltersSection" style="display: none; background: var(--surface-color); padding: 24px; border-radius: var(--radius-md); border: 1px solid var(--border-color); margin-bottom: 24px;">
+        <h3 style="margin-bottom: 16px; font-size: 1.1rem;">Filter & Sort Appointments</h3>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: end;">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" style="font-size: 0.85rem;" for="patientDoctorFilter">Doctor</label>
+            <select id="patientDoctorFilter" class="form-control" style="padding: 8px 12px; font-size: 0.9rem;">
+              <option value="">All Doctors</option>
+              <option value="Dr. Vikram Sharma (General Medicine)">Dr. Vikram Sharma</option>
+              <option value="Dr. Anjali Desai (Pediatrics)">Dr. Anjali Desai</option>
+              <option value="Dr. Rajesh Kumar (Cardiology)">Dr. Rajesh Kumar</option>
+              <option value="Dr. Meera Patel (Gynecology)">Dr. Meera Patel</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" style="font-size: 0.85rem;" for="patientDateFilter">Date</label>
+            <input type="date" id="patientDateFilter" class="form-control" style="padding: 8px 12px; font-size: 0.9rem;">
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" style="font-size: 0.85rem;" for="patientStatusFilter">Status</label>
+            <select id="patientStatusFilter" class="form-control" style="padding: 8px 12px; font-size: 0.9rem;">
+              <option value="">All Statuses</option>
+              <option value="Pending">Pending</option>
+              <option value="Confirmed">Confirmed</option>
+              <option value="Completed">Completed</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" style="font-size: 0.85rem;" for="patientSortSelect">Sort By</label>
+            <select id="patientSortSelect" class="form-control" style="padding: 8px 12px; font-size: 0.9rem;">
+              <option value="date-desc">Date (Latest First)</option>
+              <option value="date-asc">Date (Oldest First)</option>
+              <option value="id-asc">ID (A-Z)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Area -->
+      <div id="resultsArea" class="animate-on-scroll fade-up">
+        
+        <!-- Default Empty State -->
+        <div class="empty-state" id="emptyState">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--border-color)" stroke-width="2" style="margin-bottom: 24px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <h3 style="margin-bottom: 12px; color: var(--text-secondary);">No Appointments Found</h3>
+          <p style="color: var(--text-light); margin-bottom: 24px;">Enter your ID or Mobile Number above to view your scheduled visits.</p>
+          <a href="appointments.html" class="btn btn-secondary">Book an Appointment</a>
+        </div>
+        
+        <!-- List container -->
+        <div id="appointmentsList" style="display: none;"></div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Appointment Details Modal (with visual timeline) -->
+  <div class="modal-overlay" id="detailsModal" aria-hidden="true" role="dialog" aria-labelledby="modalDetailsTitle">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('detailsModal')" aria-label="Close modal">&times;</button>
+      <h3 id="modalDetailsTitle" style="margin-bottom: 24px; border-bottom: 1px solid var(--border-color); padding-bottom: 16px;">Appointment Details</h3>
+      
+      <div id="modalDetailsContent">
+        <!-- Injected via JS -->
+      </div>
+      
+      <div style="margin-top: 24px; text-align: right;">
+        <button class="btn btn-secondary" onclick="closeModal('detailsModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cancel Confirmation Modal -->
+  <div class="modal-overlay" id="cancelModal" aria-hidden="true" role="dialog" aria-labelledby="modalCancelTitle">
+    <div class="modal-content" style="text-align: center;">
+      <button class="modal-close" onclick="closeModal('cancelModal')" aria-label="Close modal">&times;</button>
+      <div style="width: 80px; height: 80px; background-color: rgba(244, 67, 54, 0.1); color: var(--status-cancelled); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      </div>
+      <h3 id="modalCancelTitle" style="margin-bottom: 16px;">Cancel Appointment?</h3>
+      <p style="color: var(--text-secondary); margin-bottom: 24px;">Are you sure you want to cancel appointment <strong id="cancelAptId"></strong>? This action cannot be undone.</p>
+      
+      <div style="display: flex; gap: 16px; justify-content: center;">
+        <button class="btn btn-secondary" onclick="closeModal('cancelModal')">No, Keep It</button>
+        <button class="btn" style="background-color: var(--status-cancelled); color: white; border: none;" id="confirmCancelBtn">Yes, Cancel It</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container text-center">
+      <p style="color: var(--text-secondary);">&copy; 2026 Smart Clinic System. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

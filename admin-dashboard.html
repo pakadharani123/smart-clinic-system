@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Smart Clinic</title>
+  <meta name="description" content="Clinic administration portal. Manage bookings, analytics, and records.">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    /* Admin specific styles */
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    
+    .admin-stat-card {
+      background-color: var(--surface-color);
+      padding: 24px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .admin-stat-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    
+    .chart-card {
+      background-color: var(--surface-color);
+      padding: 24px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-color);
+    }
+    
+    .table-container {
+      background-color: var(--surface-color);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-color);
+      overflow-x: auto;
+    }
+    
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .data-table th, .data-table td {
+      padding: 16px 24px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .data-table th {
+      background-color: var(--surface-hover);
+      font-weight: 600;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+    
+    .data-table tr:hover {
+      background-color: rgba(33, 150, 243, 0.02);
+    }
+    
+    .action-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      color: var(--text-secondary);
+      transition: color var(--transition-fast);
+    }
+    
+    .action-btn:hover {
+      color: var(--primary-color);
+    }
+    
+    .action-btn.delete:hover {
+      color: var(--status-cancelled);
+    }
+
+    /* Auth Gate overlay */
+    #authOverlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-color: var(--bg-color);
+      z-index: 3000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .auth-card {
+      background-color: var(--surface-color);
+      padding: 48px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    
+    .tab-nav {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: 12px 16px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      position: relative;
+    }
+    
+    .tab-btn.active {
+      color: var(--primary-color);
+    }
+    
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--primary-color);
+    }
+    
+    .tab-pane {
+      display: none;
+    }
+    
+    .tab-pane.active {
+      display: block;
+    }
+    
+    @media (max-width: 1024px) {
+      .admin-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .admin-stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Skip to main content landmark for accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Loading Screen -->
+  <div class="loader-wrapper">
+    <div class="loader"></div>
+  </div>
+
+  <!-- Authentication Gate -->
+  <div id="authOverlay">
+    <div class="auth-card">
+      <div style="width: 64px; height: 64px; background-color: rgba(33, 150, 243, 0.1); color: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <h2 style="margin-bottom: 8px;">Admin Login</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 24px;">Please enter the admin password</p>
+      
+      <form id="adminAuthForm">
+        <div class="form-group" style="text-align: left;">
+          <input type="password" id="adminPassword" class="form-control" placeholder="Password (hint: admin123)" required>
+          <span class="error-message" id="authError">Incorrect password</span>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar scrolled">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">+</div>
+        Smart Clinic
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="appointments.html">Book Appointment</a></li>
+        <li><a href="patient-dashboard.html">Dashboard</a></li>
+        <li><a href="admin-dashboard.html" class="active">Admin</a></li>
+      </ul>
+      
+      <div class="nav-actions">
+        <button id="pwaInstallBtn" class="btn btn-sm btn-primary" style="display: none; padding: 8px 16px; font-size: 0.85rem;">Install App</button>
+        <button class="theme-toggle" aria-label="Toggle dark mode"></button>
+        <button class="btn btn-sm btn-secondary" onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main-content" class="container" style="margin-top: 100px; padding-bottom: 64px;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+      <h2>Admin Dashboard</h2>
+      <button class="btn btn-primary" onclick="initAdminData(true)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        Refresh Data
+      </button>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="admin-stats-grid">
+      <div class="admin-stat-card">
+        <div class="admin-stat-icon" style="background-color: rgba(33, 150, 243, 0.1); color: var(--primary-color);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div>
+          <h3 id="statTotalAppointments" style="font-size: 1.8rem; margin: 0;">0</h3>
+          <span style="color: var(--text-secondary); font-size: 0.9rem;">Total Appointments</span>
+        </div>
+      </div>
+      
+      <div class="admin-stat-card">
+        <div class="admin-stat-icon" style="background-color: rgba(76, 175, 80, 0.1); color: var(--status-completed);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div>
+          <h3 id="statTotalPatients" style="font-size: 1.8rem; margin: 0;">0</h3>
+          <span style="color: var(--text-secondary); font-size: 0.9rem;">Total Patients</span>
+        </div>
+      </div>
+      
+      <div class="admin-stat-card">
+        <div class="admin-stat-icon" style="background-color: rgba(255, 152, 0, 0.1); color: var(--status-pending);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <h3 id="statToday" style="font-size: 1.8rem; margin: 0;">0</h3>
+          <span style="color: var(--text-secondary); font-size: 0.9rem;">Today's Load</span>
+        </div>
+      </div>
+      
+      <div class="admin-stat-card">
+        <div class="admin-stat-icon" style="background-color: rgba(244, 67, 54, 0.1); color: var(--status-cancelled);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        </div>
+        <div>
+          <h3 id="statCancelled" style="font-size: 1.8rem; margin: 0;">0</h3>
+          <span style="color: var(--text-secondary); font-size: 0.9rem;">Pending Status</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="charts-grid">
+      <div class="chart-card">
+        <h3 style="margin-bottom: 24px; font-size: 1.1rem;">Appointment Trends (Last 7 Days)</h3>
+        <canvas id="trendsChart" width="300" height="250" style="width: 100%; height: 250px;"></canvas>
+      </div>
+      
+      <div class="chart-card">
+        <h3 style="margin-bottom: 24px; font-size: 1.1rem;">Service Breakdown</h3>
+        <canvas id="serviceChart" width="300" height="250" style="width: 100%; height: 250px;"></canvas>
+      </div>
+
+      <div class="chart-card">
+        <h3 style="margin-bottom: 24px; font-size: 1.1rem;">Doctor Occupancy Rate</h3>
+        <canvas id="utilizationChart" width="300" height="250" style="width: 100%; height: 250px;"></canvas>
+      </div>
+    </div>
+
+    <!-- Tabs for Tables -->
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('appointments')">Appointments Management</button>
+      <button class="tab-btn" onclick="switchTab('patients')">Patient Records</button>
+    </div>
+
+    <!-- Appointments Tab -->
+    <div id="tab-appointments" class="tab-pane active">
+      <!-- Bulk Actions Alert Bar -->
+      <div id="bulkActionsBar" style="display: none; justify-content: space-between; align-items: center; background: rgba(33, 150, 243, 0.1); border: 1.5px solid var(--primary-color); padding: 16px 24px; border-radius: var(--radius-md); margin-bottom: 24px;">
+        <div>
+          <span id="bulkSelectCount" style="font-weight: 600; color: var(--primary-color);">0 selected</span>
+        </div>
+        <div style="display: flex; gap: 16px;">
+          <button id="bulkStatusBtn" class="btn btn-secondary btn-sm">Update Status</button>
+          <button id="bulkDeleteBtn" class="btn btn-sm" style="background-color: var(--status-cancelled); color: white; border: none;">Delete Selected</button>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <div style="padding: 16px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; gap: 16px;">
+          <div style="display: flex; gap: 16px; flex-grow: 1; align-items: center;">
+            <h3 style="margin: 0; font-size: 1.2rem; white-space: nowrap;">All Appointments</h3>
+            <input type="text" id="aptSearchInput" class="form-control" placeholder="Search by ID, Name or Mobile..." style="max-width: 300px; padding: 8px 16px;">
+          </div>
+          <select id="aptStatusFilter" class="form-control" style="width: auto; padding: 8px 16px; margin-bottom: 0;">
+            <option value="All">All Statuses</option>
+            <option value="Pending">Pending</option>
+            <option value="Confirmed">Confirmed</option>
+            <option value="Completed">Completed</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 40px;"><input type="checkbox" id="selectAllApts" aria-label="Select all rows"></th>
+              <th>ID</th>
+              <th>Patient Info</th>
+              <th>Date & Time</th>
+              <th>Doctor</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminAppointmentsTable">
+            <!-- Injected via JS -->
+          </tbody>
+        </table>
+        
+        <!-- Pagination controller -->
+        <div id="aptPagination" style="padding: 16px 24px; display: flex; justify-content: flex-end; align-items: center;">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Patients Tab -->
+    <div id="tab-patients" class="tab-pane">
+      <div class="table-container">
+        <div style="padding: 16px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; gap: 16px;">
+          <div style="display: flex; gap: 16px; flex-grow: 1; align-items: center;">
+            <h3 style="margin: 0; font-size: 1.2rem; white-space: nowrap;">Patient Records</h3>
+            <input type="text" id="patientSearchInput" class="form-control" placeholder="Search by Name or Mobile..." style="max-width: 300px; padding: 8px 16px;">
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="openModal('patientModal'); document.getElementById('patientForm').reset(); document.getElementById('recordId').value = '';">Add Record</button>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Record ID</th>
+              <th>Name & Age</th>
+              <th>Contact</th>
+              <th>Medical Details</th>
+              <th>History Summary</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminPatientsTable">
+            <!-- Injected via JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Database actions block -->
+    <div style="background-color: var(--surface-color); border-radius: var(--radius-md); border: 1px solid var(--border-color); padding: 24px; margin-top: 32px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px;">
+      <div>
+        <h3 style="font-size: 1.1rem; margin-bottom: 4px;">Data Operations</h3>
+        <p style="color: var(--text-secondary); font-size: 0.85rem; margin: 0;">Backup, restore database or export grids to Excel-friendly CSVs.</p>
+      </div>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <button id="exportAptCSVBtn" class="btn btn-secondary btn-sm">Export Appointments CSV</button>
+        <button id="exportPtCSVBtn" class="btn btn-secondary btn-sm">Export Patients CSV</button>
+        <button id="backupDbBtn" class="btn btn-secondary btn-sm">Backup DB (JSON)</button>
+        <label for="restoreDbFile" class="btn btn-primary btn-sm" style="margin: 0; cursor: pointer;">Restore DB (JSON)</label>
+        <input type="file" id="restoreDbFile" style="display: none;" accept=".json">
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Status Update Modal -->
+  <div class="modal-overlay" id="statusModal" aria-hidden="true" role="dialog" aria-labelledby="statusModalTitle">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('statusModal')" aria-label="Close modal">&times;</button>
+      <h3 id="statusModalTitle" style="margin-bottom: 24px;">Update Status</h3>
+      <input type="hidden" id="updateAptId">
+      <div class="form-group">
+        <label class="form-label" for="newStatusSelect">New Status</label>
+        <select id="newStatusSelect" class="form-control">
+          <option value="Pending">Pending</option>
+          <option value="Confirmed">Confirmed</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+          <option value="Cancelled">Cancelled</option>
+        </select>
+      </div>
+      <button class="btn btn-primary btn-block" onclick="updateStatus()">Save Changes</button>
+    </div>
+  </div>
+
+  <!-- Single Edit Appointment Modal -->
+  <div class="modal-overlay" id="editAptModal" aria-hidden="true" role="dialog" aria-labelledby="editAptTitle">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('editAptModal')" aria-label="Close modal">&times;</button>
+      <h3 id="editAptTitle" style="margin-bottom: 24px;">Edit Appointment</h3>
+      <input type="hidden" id="editAptId">
+      
+      <div class="form-group">
+        <label class="form-label" for="editAptName">Patient Name</label>
+        <input type="text" id="editAptName" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="editAptPhone">Contact Number</label>
+        <input type="text" id="editAptPhone" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="editAptDoctor">Doctor</label>
+        <select id="editAptDoctor" class="form-control">
+          <option value="Dr. Vikram Sharma (General Medicine)">Dr. Vikram Sharma (General Medicine)</option>
+          <option value="Dr. Anjali Desai (Pediatrics)">Dr. Anjali Desai (Pediatrics)</option>
+          <option value="Dr. Rajesh Kumar (Cardiology)">Dr. Rajesh Kumar (Cardiology)</option>
+          <option value="Dr. Meera Patel (Gynecology)">Dr. Meera Patel (Gynecology)</option>
+        </select>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="form-group">
+          <label class="form-label" for="editAptDate">Date</label>
+          <input type="date" id="editAptDate" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="editAptTime">Time Slot</label>
+          <select id="editAptTime" class="form-control" required>
+            <option value="09:00 AM">09:00 AM</option>
+            <option value="10:00 AM">10:00 AM</option>
+            <option value="11:00 AM">11:00 AM</option>
+            <option value="12:00 PM">12:00 PM</option>
+            <option value="02:00 PM">02:00 PM</option>
+            <option value="03:00 PM">03:00 PM</option>
+            <option value="04:00 PM">04:00 PM</option>
+            <option value="05:00 PM">05:00 PM</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-block" onclick="saveEditAppointment()">Save Changes</button>
+    </div>
+  </div>
+
+  <!-- Advanced Patient Record Modal -->
+  <div class="modal-overlay" id="patientModal" aria-hidden="true" role="dialog" aria-labelledby="patientModalTitle">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('patientModal')" aria-label="Close modal">&times;</button>
+      <h3 id="patientModalTitle" style="margin-bottom: 24px;">Patient Record</h3>
+      <form id="patientForm">
+        <input type="hidden" id="recordId">
+        <div class="form-group">
+          <label class="form-label" for="recordName">Full Name</label>
+          <input type="text" id="recordName" class="form-control" required>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="form-group">
+            <label class="form-label" for="recordAge">Age</label>
+            <input type="number" id="recordAge" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="recordGender">Gender</label>
+            <select id="recordGender" class="form-control" required>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="form-group">
+            <label class="form-label" for="recordContact">Contact Number</label>
+            <input type="text" id="recordContact" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="recordBloodGroup">Blood Group</label>
+            <select id="recordBloodGroup" class="form-control">
+              <option value="">Select Blood Group</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="form-group">
+            <label class="form-label" for="recordEmergency">Emergency Contact</label>
+            <input type="text" id="recordEmergency" class="form-control" placeholder="Name & Number">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="recordInsurance">Insurance Company</label>
+            <input type="text" id="recordInsurance" class="form-control" placeholder="Company Name/ID">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="recordAllergies">Known Allergies</label>
+          <input type="text" id="recordAllergies" class="form-control" placeholder="e.g. Penicillin, Peanuts (or None)">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="recordHistory">Medical History Summary</label>
+          <textarea id="recordHistory" class="form-control" placeholder="All past diagnoses, surgeries, and chronic medications..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Save Record</button>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>

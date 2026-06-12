@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Clinic | Advanced Healthcare System</title>
+  <meta name="description" content="Professional clinic appointment and patient management system offering premium healthcare services, online bookings, and secure patient charts.">
+  <meta name="keywords" content="medical clinic, online doctor appointment, family healthcare, patient portal">
+  <link rel="canonical" href="http://localhost:3000/index.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Smart Clinic | Advanced Healthcare System">
+  <meta property="og:description" content="Professional clinic appointment and patient management system offering premium healthcare services.">
+
+  <!-- PWA Manifest & Colors -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2196f3">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Structured JSON-LD Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalClinic",
+    "name": "Smart Clinic",
+    "url": "http://localhost:3000",
+    "logo": "http://localhost:3000/assets/images/logo-512.png",
+    "telephone": "+91 98765 43210",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "12-570, near Kanakadurga Varadhi, Tadepalle",
+      "addressLocality": "Vijayawada",
+      "addressRegion": "Andhra Pradesh",
+      "postalCode": "522501",
+      "addressCountry": "IN"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Accessibility Skip link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Loading Screen -->
+  <div class="loader-wrapper">
+    <div class="loader"></div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">+</div>
+        Smart Clinic
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="appointments.html">Book Appointment</a></li>
+        <li><a href="patient-dashboard.html">Dashboard</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      
+      <div class="nav-actions">
+        <button id="pwaInstallBtn" class="btn btn-sm btn-primary" style="display: none; padding: 8px 16px; font-size: 0.85rem;">Install App</button>
+        <button class="theme-toggle" aria-label="Toggle dark mode"></button>
+        <button class="hamburger" aria-label="Menu" aria-expanded="false">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <main id="main-content">
+    <section class="hero">
+      <div class="hero-bg-shape"></div>
+      <div class="container hero-container">
+        <div class="hero-content animate-on-scroll fade-right">
+          <!-- Live Status widget -->
+          <div id="clinicStatusWidget" class="clinic-status-badge open" style="margin-bottom: 24px;"></div>
+
+          <h1>Premium Healthcare<br>For Your <span>Family</span></h1>
+          <p>Experience world-class medical services with our state-of-the-art facilities and experienced specialists. Your health is our priority.</p>
+          <div class="hero-buttons">
+            <a href="appointments.html" class="btn btn-primary">Book Appointment</a>
+            <a href="contact.html" class="btn btn-secondary">Call Now</a>
+          </div>
+        </div>
+        
+        <div class="hero-image animate-on-scroll fade-left">
+          <img src="assets/images/hero-doctor.png" alt="Doctor smiling and holding clipboard">
+          
+          <div class="floating-card top">
+            <div class="floating-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div>
+              <h4 style="font-family: var(--font-body); font-weight: 600; margin: 0;">100% Safe</h4>
+              <span style="color: var(--text-secondary); font-size: 0.9rem;">Verified Doctors</span>
+            </div>
+          </div>
+          
+          <div class="floating-card bottom">
+            <div class="floating-icon" style="color: var(--status-completed); background-color: rgba(76,175,80,0.1);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+            <div>
+              <h4 style="font-family: var(--font-body); font-weight: 600; margin: 0;">Top Rated</h4>
+              <span style="color: var(--text-secondary); font-size: 0.9rem;">4.9/5 from Patients</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Statistics -->
+    <section class="stats">
+      <div class="container stats-grid">
+        <div class="stat-item animate-on-scroll zoom-in">
+          <h3 class="counter" data-target="5000" data-plus="true">0</h3>
+          <p>Patients Served</p>
+        </div>
+        <div class="stat-item animate-on-scroll zoom-in" style="transition-delay: 0.1s;">
+          <h3 class="counter" data-target="4800" data-plus="true">0</h3>
+          <p>Successful Treatments</p>
+        </div>
+        <div class="stat-item animate-on-scroll zoom-in" style="transition-delay: 0.2s;">
+          <h3 class="counter" data-target="15" data-plus="true">0</h3>
+          <p>Years Experience</p>
+        </div>
+        <div class="stat-item animate-on-scroll zoom-in" style="transition-delay: 0.3s;">
+          <h3 class="counter" data-target="12000" data-plus="true">0</h3>
+          <p>Appointments Completed</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Health Tips Carousel Widget -->
+    <section class="section" style="background-color: var(--surface-color); padding: 40px 0; border-bottom: 1px solid var(--border-color);">
+      <div class="container">
+        <div class="health-tip-card">
+          <div id="healthTipsContainer"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Preview -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header animate-on-scroll fade-up">
+          <h2>Our Services</h2>
+          <p>Comprehensive healthcare solutions tailored to your specific needs.</p>
+        </div>
+        
+        <div class="services-grid">
+          <div class="service-card animate-on-scroll fade-up">
+            <div class="service-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.2 7.8l-7.7 7.7-4-4-5.7 5.7"/><path d="M15 7h6v6"/></svg>
+            </div>
+            <h3>General Consultation</h3>
+            <p>Expert medical advice and treatment plans for general health concerns and routine checkups.</p>
+            <a href="services.html" class="service-link">Learn More <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          </div>
+          
+          <div class="service-card animate-on-scroll fade-up" style="transition-delay: 0.1s;">
+            <div class="service-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.2 19.1 19.1"/></svg>
+            </div>
+            <h3>Diabetes Care</h3>
+            <p>Comprehensive management, dietary planning, and monitoring for diabetes patients.</p>
+            <a href="services.html" class="service-link">Learn More <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          </div>
+          
+          <div class="service-card animate-on-scroll fade-up" style="transition-delay: 0.2s;">
+            <div class="service-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <h3>Child Care</h3>
+            <p>Pediatric services focusing on the physical, emotional, and social health of children.</p>
+            <a href="services.html" class="service-link">Learn More <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 48px;">
+          <a href="services.html" class="btn btn-primary">View All Services</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section testimonials">
+      <div class="container">
+        <div class="section-header animate-on-scroll fade-up">
+          <h2>What Our Patients Say</h2>
+          <p>Real experiences from people who trusted us with their health.</p>
+        </div>
+        
+        <div class="testimonial-slider animate-on-scroll zoom-in">
+          <div class="testimonial-track">
+            <div class="testimonial-slide">
+              <div class="stars">★★★★★</div>
+              <p class="testimonial-text">"The doctor was extremely professional and took the time to explain everything clearly. Booking an appointment through the website was quick and hassle-free."</p>
+              <div class="patient-info">
+                <div style="width: 50px; height: 50px; background: var(--primary-color); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem;">RA</div>
+                <div style="text-align: left;">
+                  <h4 style="margin: 0; font-family: var(--font-body);">Rahul Agarwal</h4>
+                  <span>Regular Patient</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="testimonial-slide">
+              <div class="stars">★★★★★</div>
+              <p class="testimonial-text">"I visited the clinic for a general checkup. The staff is polite, the environment is very clean, and the service is prompt. Highly recommended!"</p>
+              <div class="patient-info">
+                <div style="width: 50px; height: 50px; background: var(--secondary-color); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem;">PS</div>
+                <div style="text-align: left;">
+                  <h4 style="margin: 0; font-family: var(--font-body);">Priya Sharma</h4>
+                  <span>Consultation</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="slider-dots"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header animate-on-scroll fade-up">
+          <h2>Clinic Gallery</h2>
+          <p>Take a tour of our modern facilities.</p>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;" class="animate-on-scroll fade-up">
+          <div style="border-radius: var(--radius-md); overflow: hidden; height: 250px;">
+            <img src="assets/images/clinic-interior.png" alt="Clinic Interior corridor view" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="border-radius: var(--radius-md); overflow: hidden; height: 250px;">
+            <img src="assets/images/consultation-room.png" alt="Doctor Consultation Room" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="border-radius: var(--radius-md); overflow: hidden; height: 250px;">
+            <img src="assets/images/lab-equipment.png" alt="Clinical Laboratory Equipment" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" style="background-color: var(--surface-color);">
+      <div class="container">
+        <div class="section-header animate-on-scroll fade-up">
+          <h2>Frequently Asked Questions</h2>
+          <p>Find answers to common questions about our clinic and services.</p>
+        </div>
+
+        <!-- FAQ Search input -->
+        <div style="max-width: 600px; margin: 0 auto 32px; position: relative;">
+          <input type="text" id="faqSearchInput" class="form-control" placeholder="Search FAQ articles..." style="padding-left: 20px;">
+        </div>
+        
+        <div class="faq-container animate-on-scroll fade-up">
+          <div class="faq-item">
+            <div class="faq-question" role="button" aria-expanded="false">
+              How to book appointments online?
+              <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+            <div class="faq-answer">
+              <p>You can book an appointment by navigating to the "Book Appointment" page from the menu. Fill in your details, select your preferred date and time, and submit the form. You will receive an Appointment ID instantly.</p>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question" role="button" aria-expanded="false">
+              What are the consultation charges?
+              <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+            <div class="faq-answer">
+              <p>Our standard general consultation fee is ₹500. Specialist consultations may vary. Please contact our reception desk for specific service charges.</p>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question" role="button" aria-expanded="false">
+              Are emergency services available?
+              <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+            <div class="faq-answer">
+              <p>Yes, we provide 24/7 emergency care services. Please call our emergency hotline directly at +91 98765 43210 for immediate assistance.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Floating Emergency Call Button -->
+  <a href="tel:+919876543210" class="emergency-float" aria-label="Call Emergency Hotline" title="Call Emergency Hotline">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+  </a>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="index.html" class="logo" style="margin-bottom: 24px; display: inline-flex;">
+            <div class="logo-icon">+</div>
+            Smart Clinic
+          </a>
+          <p style="color: var(--text-secondary); margin-bottom: 24px; max-width: 300px;">Providing premium healthcare services with advanced technology and compassionate care.</p>
+          <div class="social-links">
+            <a href="#" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+            <a href="#" aria-label="Twitter"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 4.01c-1 .49-1.98.68-3 .99-1.12-1.27-2.74-2.06-4.5-2-2.67 0-5.48 2.08-5.48 5.15 0 .41.04.82.11 1.21C7.69 9.3 4.06 7.33 1.64 3.16c-.45.77-.71 1.66-.71 2.61 0 1.73.91 3.29 2.29 4.21-.92-.03-1.78-.29-2.53-.7v.06c0 2.67 1.91 4.89 4.43 5.39-.47.13-.97.19-1.48.19-.36 0-.71-.03-1.05-.1.7 2.19 2.76 3.79 5.18 3.83C5.83 20.35 3.1 21.2 0 21.2c-.42 0-.84-.02-1.25-.07C2.45 22.8 5.37 23.5 8.5 23.5c10.18 0 15.75-8.43 15.75-15.75 0-.24 0-.48-.01-.72 1.08-.78 2.02-1.75 2.76-2.84z"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          </div>
+        </div>
+        
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Doctor</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul class="footer-links">
+            <li><a href="services.html">General Checkup</a></li>
+            <li><a href="services.html">Diabetes Care</a></li>
+            <li><a href="services.html">Child Care</a></li>
+            <li><a href="services.html">Laboratory</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-col">
+          <h4>Contact Info</h4>
+          <ul class="footer-links">
+            <li style="display: flex; gap: 8px; margin-bottom: 16px; color: var(--text-secondary);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary-color); flex-shrink: 0;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              12-570, near Kanakadurga Varadhi, Tadepalle, Vijayawada, Andhra Pradesh 522501
+            </li>
+            <li style="display: flex; gap: 8px; margin-bottom: 16px; color: var(--text-secondary);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary-color); flex-shrink: 0;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              +91 98765 43210
+            </li>
+            <li style="display: flex; gap: 8px; color: var(--text-secondary);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary-color); flex-shrink: 0;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              info@smartclinic.com
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2026 Smart Clinic System. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" aria-label="Back to top">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg>
+  </button>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

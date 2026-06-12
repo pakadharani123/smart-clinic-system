@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us | Smart Clinic</title>
+  <meta name="description" content="Learn more about Smart Clinic, our history, doctor profiles, and clinical milestones.">
+  <meta name="keywords" content="about clinic, medical staff, timeline, clinical team">
+  <link rel="canonical" href="http://localhost:3000/about.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="About Us | Smart Clinic">
+  <meta property="og:description" content="Learn more about Smart Clinic, our history, doctor profiles, and clinical milestones.">
+
+  <!-- PWA Manifest & Colors -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2196f3">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    /* About page specific styles */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 64px auto 0;
+      padding-left: 32px;
+    }
+    
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 0;
+      width: 2px;
+      height: 100%;
+      background-color: var(--border-color);
+    }
+    
+    .timeline-item {
+      position: relative;
+      margin-bottom: 48px;
+    }
+    
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -32px;
+      top: 6px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      border: 3px solid var(--surface-color);
+      box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.15);
+    }
+    
+    .timeline-date {
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 8px;
+    }
+    
+    @media (max-width: 768px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Skip to main content landmark for accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Loading Screen -->
+  <div class="loader-wrapper">
+    <div class="loader"></div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar scrolled">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">+</div>
+        Smart Clinic
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="appointments.html">Book Appointment</a></li>
+        <li><a href="patient-dashboard.html">Dashboard</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      
+      <div class="nav-actions">
+        <button id="pwaInstallBtn" class="btn btn-sm btn-primary" style="display: none; padding: 8px 16px; font-size: 0.85rem;">Install App</button>
+        <button class="theme-toggle" aria-label="Toggle dark mode"></button>
+        <button class="hamburger" aria-label="Menu" aria-expanded="false">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="section" style="background: linear-gradient(135deg, rgba(33, 150, 243, 0.1), rgba(255, 255, 255, 0)); padding: 160px 0 80px; margin-bottom: 0;">
+    <div class="container text-center" style="text-align: center;">
+      <h1 class="animate-on-scroll fade-up">About Smart Clinic</h1>
+      <p class="animate-on-scroll fade-up" style="transition-delay: 0.1s; color: var(--text-secondary); max-width: 600px; margin: 16px auto 0;">Dedicated to providing accessible, high-quality, and patient-centered healthcare solutions.</p>
+    </div>
+  </header>
+
+  <!-- About Grid -->
+  <main id="main-content" class="section">
+    <div class="container">
+      
+      <div class="about-grid">
+        <div class="animate-on-scroll fade-right">
+          <img src="assets/images/doctor-profile.png" alt="Dr. Vikram Sharma consulting with stethoscope" style="border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);">
+        </div>
+        
+        <div class="animate-on-scroll fade-left">
+          <span style="color: var(--primary-color); font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 12px;">Chief Medical Officer</span>
+          <h2 style="font-size: 2.2rem; margin-bottom: 24px;">Dr. Vikram Sharma, MD</h2>
+          <p style="margin-bottom: 20px; color: var(--text-secondary);">With over 15 years of experience in internal medicine, Dr. Vikram Sharma founded Smart Clinic with a vision to integrate advanced healthcare technology with compassionate, customized patient treatment plan models.</p>
+          <p style="color: var(--text-secondary); margin-bottom: 32px;">He has served in prestigious national hospitals and believes that access to structured diagnostics and early preventive care should be seamless and hassle-free for everyone.</p>
+          <a href="appointments.html" class="btn btn-primary">Book Consultation</a>
+        </div>
+      </div>
+      
+      <!-- Timeline -->
+      <div class="timeline animate-on-scroll fade-up">
+        <h3 style="text-align: center; font-size: 2rem; margin-bottom: 48px; font-family: var(--font-heading);">Our Clinical Milestones</h3>
+        
+        <div class="timeline-item">
+          <div class="timeline-date">2012</div>
+          <h4>Smart Clinic Founded</h4>
+          <p style="color: var(--text-secondary);">Began operations as a small community family practice clinic focusing on preventive primary care.</p>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-date">2016</div>
+          <h4>Diagnostic Lab Launch</h4>
+          <p style="color: var(--text-secondary);">Upgraded our facilities to include state-of-the-art laboratory diagnostic capabilities.</p>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-date">2020</div>
+          <h4>Digital Records Integration</h4>
+          <p style="color: var(--text-secondary);">Completely digitized patient records, launching online appointment management interfaces.</p>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-date">2026</div>
+          <h4>Smart Clinic Upgrade v2.0</h4>
+          <p style="color: var(--text-secondary);">Upgraded to the PWA framework offering offline support, advanced security lockout, and automated slot grid conflict controls.</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Floating Emergency Call Button -->
+  <a href="tel:+919876543210" class="emergency-float" aria-label="Call Emergency Hotline" title="Call Emergency Hotline">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+  </a>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="index.html" class="logo" style="margin-bottom: 24px; display: inline-flex;">
+            <div class="logo-icon">+</div>
+            Smart Clinic
+          </a>
+          <p style="color: var(--text-secondary); margin-bottom: 24px; max-width: 300px;">Providing premium healthcare services with advanced technology and compassionate care.</p>
+        </div>
+        
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Doctor</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul class="footer-links">
+            <li><a href="services.html">General Checkup</a></li>
+            <li><a href="services.html">Diabetes Care</a></li>
+            <li><a href="services.html">Child Care</a></li>
+            <li><a href="services.html">Laboratory</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-col">
+          <h4>Contact Info</h4>
+          <ul class="footer-links">
+            <li style="color: var(--text-secondary);">12-570, near Kanakadurga Varadhi, Tadepalle, Vijayawada, Andhra Pradesh 522501</li>
+            <li style="color: var(--text-secondary);">+91 98765 43210</li>
+            <li style="color: var(--text-secondary);">info@smartclinic.com</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Smart Clinic System. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" aria-label="Back to top">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg>
+  </button>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
